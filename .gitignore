@@ -16,5 +16,5 @@ venv.bak/
 
 # vpnmon-specific items
 commands.txt
-vpnmon_datalog.txt
+vpnmon_datalog.csv
 vpnmon_notes.txt
