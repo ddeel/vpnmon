@@ -1,0 +1,20 @@
+# .gitignore for vpnmon
+
+# Python byte-compiled/optimized/DLL items
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environment items
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# vpnmon-specific items
+commands.txt
+vpnmon_datalog.txt
+vpnmon_notes.txt
