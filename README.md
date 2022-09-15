@@ -87,7 +87,7 @@ These installation steps assume that Python and the Cisco AnyConnect Secure Mobi
 
 - Set up the vpnmon targets file, which contains the URLs or IP addresses and human-readable names of the computer systems that are to be checked within the facility via the VPN connection. The default name of this file is *vpnmon_targets.csv*, but this name can be overridden by a command line argument or by an entry in the vpnmon parameters file. This is a CSV (comma separated values) file, so it can be updated with a text editor or any spreadsheet program that handles CSV files.
 
-    The vpnmon targets file has a simple format. It specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters. 
+    The vpnmon targets file has a simple format. It specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters.
 
     If the vpnmon targets file is empty or cannot be found, no target computer systems will be tested via the VPN gateway. An empty version of the default *vpnmon\_targets.csv* file is included as part of the vpnmon distribution, and it can easily be modified as needed for a specific facility.
 
@@ -343,7 +343,7 @@ This CSV (comma separated values) file specifies the URL or IP addresses and hum
 
 The targets file is optional but required for checking computer systems within a facility via the VPN connection. If this file is empty or cannot be found, no target computer systems will be tested via the VPN gateway.
 
-This CSV file specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters. 
+This CSV file specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters.
 
 An empty targets file named *vpnmon\_targets.csv* is included as part of the vpnmon distribution.
 
@@ -429,7 +429,7 @@ modules to implement the following sequence:
 
 *getparams()* establishes the operational parameter values by taking values from three sources, in order. First, default values are used. Second, values from the *vpnmon\_params.csv* file are used. Third, values from the command line are used. This ordering enables the following:
 
-- Default values are always set for all parameters 
+- Default values are always set for all parameters
 - The *vpnmon\_params.csv* file is optional
 - The *vpnmon\_params.csv* file entries are individually optional
 - The *vpnmon\_params.csv* file entries override default values
@@ -526,7 +526,7 @@ The following fatal error situations are detected in *vpnmon\_utilities.py*. The
 
 ### Fatal errors detected in *vpnmon\_vpnclient.py*
 
-The following fatal error situations are detected in *vpnmon\_vpnclient.py*. They all cause vpnmon to terminate immediately, after sending an error message to the command line session that started vpnmon: 
+The following fatal error situations are detected in *vpnmon\_vpnclient.py*. They all cause vpnmon to terminate immediately, after sending an error message to the command line session that started vpnmon:
 
 - Unable to terminate all other Cisco AnyConnect applications. This is detected by *open()*, and causes the error message "Unable to end an existing AnyConnect UI or CLI".
 
@@ -534,7 +534,7 @@ The following fatal error situations are detected in *vpnmon\_vpnclient.py*. The
 
 - Unable to use the Cisco AnyConnect CLI. This is detected by *open()*, and causes the error message "Unable to use the Cisco AnyConnect CLI".
 
-- Unable to disconnect a VPN connection that was already open when *open()* was called. This is detected by *open(_)*, and causes the error message "Unable to disconnect the VPN for open()".
+- Unable to disconnect a VPN connection that was already open when *open()* was called. This is detected by *open()*, and causes the error message "Unable to disconnect the VPN for open()".
 
 ----
 ----
