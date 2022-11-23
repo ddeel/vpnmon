@@ -184,7 +184,14 @@ def get_targets(targets_file):
     or empty, no targets will be tested. This CSV file has
     one target system entry per line, with each line having
     the URL or IP address of the target system, followed by
-    a comma, followed by the target system name.
+    a comma, followed by the target system name. Any line
+    that begins with a "#" or a space character will be
+    treated as a comment and ignored. This allows a target
+    that is temporarily offline to be explicitly ignored
+    while keeping the CSV file information for the target
+    intact. It also allows the use of comments to provide
+    more information about individual targets and groups of
+    targets.
 
     A list of targets is returned as a dictionary that can
     be empty.
@@ -201,8 +208,13 @@ def get_targets(targets_file):
                 # Remove end of line and split into fields
                 line = line.replace('\n', '')
                 ip_and_name = line.split(',', 2)
-                # Only use the first two fields on a line
-                targets[ip_and_name[0]] = ip_and_name[1]
+                # Check for lines that have been commented out
+                if ip_and_name[0][0] == '#' or ip_and_name[0][0] ==' ':
+                    # Skip lines with an initial "#" or " " character
+                    pass
+                else:
+                    # Only use the first two fields on a line
+                    targets[ip_and_name[0]] = ip_and_name[1]
             targets_file.close()
         except Exception as error:
             print('Failed to read the vpnmon targets file:')

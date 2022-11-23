@@ -89,6 +89,8 @@ These installation steps assume that Python and the Cisco AnyConnect Secure Mobi
 
     The vpnmon targets file has a simple format. It specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters.
 
+    Any line in this CSV file that begins with a "#" or a space character will be treated as a comment and ignored. This allows a target computer system that is temporarily offline to be explicitly ignored while keeping the CSV file information for the target intact. It also allows the use of comments to provide more information about individual targets and groups of targets.
+
     If the vpnmon targets file is empty or cannot be found, no target computer systems will be tested via the VPN gateway. An empty version of the default *vpnmon\_targets.csv* file is included as part of the vpnmon distribution, and it can easily be modified as needed for a specific facility.
 
 - Optional: Set up the vpnmon parameters file called *vpnmon_params.csv*. This file is optional but convenient for setting vpnmon parameters that do not change very often. This is a CSV (comma separated values) file, so it can be updated with a text editor or any spreadsheet program that handles CSV files. (See the "vpnmon parameters file" section below for information about the vpnmon parameters that can be set.)
@@ -344,6 +346,8 @@ This CSV (comma separated values) file specifies the URL or IP addresses and hum
 The targets file is optional but required for checking computer systems within a facility via the VPN connection. If this file is empty or cannot be found, no target computer systems will be tested via the VPN gateway.
 
 This CSV file specifies one target computer system per line, with each line having the URL or IP address of the target computer system, followed by a comma character, followed by the human-readable computer system name. There should not be any spaces on either side of the comma character on each line. The human-readable computer system name can include spaces and does not need to be enclosed in double-quote characters.
+
+Any line in this CSV file that begins with a "#" or a space character will be treated as a comment and ignored. This allows a target computer system that is temporarily offline to be explicitly ignored while keeping the CSV file information for the target intact. It also allows the use of comments to provide more information about individual targets and groups of targets.
 
 An empty targets file named *vpnmon\_targets.csv* is included as part of the vpnmon distribution.
 
