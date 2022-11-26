@@ -16,8 +16,6 @@ well documented, but documentation for 'pexpect' can be used to
 understand 'wexpect'. The 'wexpect' import is used in the files
 vpnmon_vpnclient.py and vpnmon_utilities.py.
 
-Added a test to see if swordfishmockups.com is responding.
-
 ddeel 210418
 """
 
@@ -64,14 +62,14 @@ def signal_handler(sig, frame):
 
     # Close the VPN connection, if it is open
     try:
-        if sd.vpnclient != '': sd.vpnclient.close()                     # debug - is the "if" needed?
+        if sd.vpnclient != '': sd.vpnclient.close()
     except:
         pass
     print('VPN connection closed')
 
     # Close the vpnmon datalog file, if it is open
     try:
-        if sd.datalogfile != '': sd.datalogfile.close()                 # debug - is the "if" needed?
+        if sd.datalogfile != '': sd.datalogfile.close()
     except:
         pass
     print('Datalog file closed')
@@ -121,9 +119,6 @@ def main():
     # Get vpnmon operational parameters
     params = get_params()
 
-    # Get vpnmon targets to test via the VPN connection
-    targets = get_targets(params['targets'])
-
     # Create a VPN Client instance (shared data item)
     sd.vpnclient = VPNClient()
 
@@ -134,13 +129,20 @@ def main():
     test_cycle = 1
     while not count == 0:
 
-        # Output the date, time, and test cycle number
+        # Get vpnmon targets to test via the VPN connection
+        targets = get_targets(params['targets'])
+
+        # Output the number, date, and time of the test cycle start
         date, tod = date_and_tod()
-        print(date, tod, 'Start vpnmon test cycle', \
+        print(str(test_cycle).rjust(3), date, tod, \
+                'Start vpnmon test cycle', \
                 test_cycle, cycles_target_str)
 
         # Gather results obtained during the test cycle
         test_results = {}
+
+        # Initialize target ping result counters
+        tgood = twarn = tfail = 0
 
         # =========================================================
         # -------- Test cycle activities are below --------
@@ -150,7 +152,8 @@ def main():
         vpn_ping_result = pinger(params['vpnurlip'], p_count = 2)
         if vpn_ping_result != 'Good':
             sounder(s_count = 3, s_quiet = params['quiet'])
-        print('-- VPN ping -----------', \
+        print(str(test_cycle).rjust(3), date, tod, \
+                '-- VPN ping -----------', \
                 vpn_ping_result, params['vpnname'])
         test_results['VPN ping'] = \
             str(test_cycle) + ',' \
@@ -172,7 +175,8 @@ def main():
                 params['password'] )
         if vpn_open_result != 'Good':
             sounder(s_count = 3, s_quiet = params['quiet'])
-        print('-- VPN open() ---------', \
+        print(str(test_cycle).rjust(3), date, tod, \
+                '-- VPN open() ---------', \
                 vpn_open_result, params['vpnname'])
         test_results['VPN open'] = \
             str(test_cycle) + ',' \
@@ -191,7 +195,11 @@ def main():
                 target_ping_result = pinger(target, p_count = 2)
                 if target_ping_result != 'Good':
                     sounder(s_count = 1, s_quiet = params['quiet'])
-                print('-- ping', target.ljust(15), \
+                if target_ping_result == 'Good': tgood += 1
+                if target_ping_result == 'Warn': twarn += 1
+                if target_ping_result == 'Fail': tfail += 1
+                print(str(test_cycle).rjust(3), date, tod, \
+                        '-- ping', target.ljust(15), \
                         target_ping_result, targets[target])
                 test_results[target] = \
                     str(test_cycle) + ',' \
@@ -209,7 +217,8 @@ def main():
             vpn_close_result = sd.vpnclient.close()
             if vpn_close_result != 'Good':
                 sounder(s_count = 3, s_quiet = params['quiet'])
-            print('-- VPN close() --------', \
+            print(str(test_cycle).rjust(3), date, tod, \
+                    '-- VPN close() --------', \
                     vpn_close_result, params['vpnname'])
             test_results['VPN close'] = \
                 str(test_cycle) + ',' \
@@ -229,16 +238,31 @@ def main():
         if datalogger_result != 'Good':
             print('Unable to record test results')
 
+        # Output the number, date, and time of the test cycle end
+        date, tod = date_and_tod()
+        print(str(test_cycle).rjust(3), date, tod, \
+                'End vpnmon test cycle', \
+                test_cycle, cycles_target_str)
+
+        # Output test cycle ping summary for target systems
+        print(str(test_cycle).rjust(3), ' ', date, ' ', tod, ' ', \
+            'vpnmon test cycle ping results:', '  Good: ', tgood, \
+            ',  Warn: ', twarn, ',  Fail: ', tfail, sep='')
+
         # Determine if another test cycle is expected,
         # where a negative count means run continuously
         if count > 0: count -= 1        # Decrement only if positve
         if count == 0: continue         # Stop if done
+        date, tod = date_and_tod()
+        print(str(test_cycle).rjust(3), date, tod, \
+                'Waiting to run next test cycle.\n')
         test_cycle += 1                 # More to do
-        print('Waiting to run the next vpnmon test cycle\n')
         time.sleep(params['delay'])     # Wait between test cycles
 
     # Announce the completion of the requested number of test cycles
-    print(test_cycle, 'vpnmon test cycles completed.')
+    date, tod = date_and_tod()
+    print(str(test_cycle).rjust(3), date, tod, \
+            test_cycle, 'vpnmon test cycles completed.')
 
     # End program
     exit(0)                     # Normal exit
