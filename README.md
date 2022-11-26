@@ -349,6 +349,8 @@ This CSV file specifies one target computer system per line, with each line havi
 
 Any line in this CSV file that begins with a "#" or a space character will be treated as a comment and ignored. This allows a target computer system that is temporarily offline to be explicitly ignored while keeping the CSV file information for the target intact. It also allows the use of comments to provide more information about individual targets and groups of targets.
 
+If the targets file is changed while vpnmon is running, the changes will go into effect when the next test cycle begins, because vpnmon reads the targets file at the beginning of each test cycle.
+
 An empty targets file named *vpnmon\_targets.csv* is included as part of the vpnmon distribution.
 
 ##### \_\_init\_\_.py
